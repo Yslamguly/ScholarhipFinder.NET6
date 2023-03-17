@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "yYLdwlqUDRJklYJg8Bait3dhU4zWO0BWzx9q2m6sA2RtiGXjd6qITBp3Qn4yBT6VdGTALRgu0S8XAgm/7cUCqg==",
+  "success": true,
+  "projectFilePath": "/Users/yslamgulypirgulyyev/Projects/ScholarhipFinder.NET6/ScholarshipFinderAPI/ScholarshipFinderAPI.csproj",
+  "expectedPackageFiles": [
+    "/Users/yslamgulypirgulyyev/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/Users/yslamgulypirgulyyev/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/yslamgulypirgulyyev/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/Users/yslamgulypirgulyyev/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/Users/yslamgulypirgulyyev/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/Users/yslamgulypirgulyyev/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
