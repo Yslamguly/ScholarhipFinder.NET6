@@ -1,10 +1,10 @@
-using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ScholarhipFinderAPI.Models;
 
 namespace ScholarhipFinderAPI.Data
 {
-	public class ApiDbContext : DbContext
+	public class ApiDbContext : IdentityDbContext
 	{
 		public virtual DbSet<Category> Categories { get; set; }
 		public virtual DbSet<Scholarship> Scholarships { get; set; }
