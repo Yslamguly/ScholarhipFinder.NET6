@@ -6,7 +6,7 @@ namespace ScholarhipFinderAPI.Models{
             // Users = new HashSet<User>();
             WishListItems = new HashSet<WishListItem>();
         }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
         // public virtual ICollection<User> Users { get; set; }
