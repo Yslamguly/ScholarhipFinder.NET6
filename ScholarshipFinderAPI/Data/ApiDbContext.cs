@@ -34,7 +34,7 @@ namespace ScholarhipFinderAPI.Data
 				.HasForeignKey(sc => sc.CategoryId);
 
 			modelBuilder.Entity<User>()
-				.HasKey(u => u.Id);
+				.HasKey(u => u.UserId);
 
 			modelBuilder.Entity<WishList>()
 				.HasKey(wl => wl.Id);
