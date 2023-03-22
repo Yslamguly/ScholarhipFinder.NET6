@@ -1,10 +1,10 @@
-using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ScholarhipFinderAPI.Models;
 
 namespace ScholarhipFinderAPI.Data
 {
-	public class ApiDbContext : DbContext
+	public class ApiDbContext : IdentityDbContext
 	{
 		public virtual DbSet<Category> Categories { get; set; }
 		public virtual DbSet<Scholarship> Scholarships { get; set; }
@@ -34,7 +34,7 @@ namespace ScholarhipFinderAPI.Data
 				.HasForeignKey(sc => sc.CategoryId);
 
 			modelBuilder.Entity<User>()
-				.HasKey(u => u.Id);
+				.HasKey(u => u.UserId);
 
 			modelBuilder.Entity<WishList>()
 				.HasKey(wl => wl.Id);
