@@ -15,8 +15,8 @@ namespace ScholarhipFinderAPI.Controllers;
 
 public class WishListController : ControllerBase {
 
-     private readonly ApiDbContext _context;
-     private readonly TokenManager _tokenHandler;
+    private readonly ApiDbContext _context;
+    private readonly TokenManager _tokenHandler;
     public WishListController(ApiDbContext context, TokenManager tokenHandler)//, JwtConfig config)
     {
         _context = context;
