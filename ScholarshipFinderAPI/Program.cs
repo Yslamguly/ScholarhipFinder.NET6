@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using ScholarhipFinderAPI.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddEntityFrameworkNpgsql()
 //Configure JWT secret key
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
+
+builder.Services.AddScoped<TokenManager>();
 
 //Let the request know that there is an authentication
 builder.Services.AddAuthentication(options=>{
