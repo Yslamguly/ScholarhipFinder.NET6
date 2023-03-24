@@ -1,13 +1,9 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using ScholarhipFinderAPI.Data;
+using ScholarhipFinderAPI.Helpers;
 using ScholarhipFinderAPI.Models;
+using ScholarhipFinderAPI.Models.DTOs;
 
 namespace ScholarhipFinderAPI.Controllers;
 [Route("/api/[controller]")]
@@ -18,60 +14,36 @@ public class ScholarshipController : ControllerBase
     // private readonly UserManager<IdentityUser> _userManager;
     private readonly ApiDbContext _context;
     // private readonly JwtConfig _config;
-    private readonly IConfiguration _configuration;
-    public ScholarshipController(ApiDbContext context, IConfiguration configuration)//, JwtConfig config)
+    private readonly TokenManager _tokenHandler;
+    public ScholarshipController(ApiDbContext context, TokenManager tokenHandler)//, JwtConfig config)
     {
         _context = context;
-        _configuration = configuration;
+        _tokenHandler = tokenHandler;
     }
 
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("scholarships")]
     [HttpGet]
-    public async Task<ActionResult<Scholarship>> GetScholarshipsAsync()
+    public async Task<ActionResult<List<Scholarship>>> GetScholarshipsAsync()
     {
-        var claimsPrincipal = ValidateToken();
-        var userId = claimsPrincipal.FindFirst("Id")?.Value;
-        var scholarships = await _context.Scholarships
-        .Join(_context.WishListItems, s => s.Id, wli => wli.ScholarshipId, (s, wli) => new { Scholarship = s, WishListItem = wli })
-        .Join(_context.WishLists, sw => sw.WishListItem.WishListId, wl => wl.Id, (sw, wl) => new { Scholarship = sw.Scholarship, WishList = wl })
-        .Where(sw => sw.WishList.UserId == userId)
-        .Select(sw => new
+        try{
+            var scholarships = await _context.Scholarships.ToListAsync();
+
+            return Ok(scholarships);
+
+        }catch
         {
-            sw.Scholarship.Id,
-            sw.Scholarship.Title,
-            sw.Scholarship.Description,
-            sw.Scholarship.Deadline
-        })
-        .ToListAsync();
-
-
-        return Ok(scholarships);
-
+            return BadRequest();
+        }
     }
-
-
-    private ClaimsPrincipal ValidateToken()
-    {
-        var token = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JwtConfig:Secret").Value);
-
-
-        // Set the validation parameters
-        var validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ClockSkew = TimeSpan.Zero
-        };
-
-        // Validate the token
-        var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
-
-        return claimsPrincipal;
+    [Route("{id}")]
+    [HttpGet]
+    public async Task<ActionResult<Scholarship>> GetScholarshipByIdAsync(int id){
+        var scholarship = await _context.Scholarships.FindAsync(id);
+            if(scholarship == null)
+            {
+                return BadRequest("Dirver not found");
+            }
+            return Ok(scholarship);
     }
 }
