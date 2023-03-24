@@ -42,8 +42,31 @@ public class ScholarshipController : ControllerBase
         var scholarship = await _context.Scholarships.FindAsync(id);
             if(scholarship == null)
             {
-                return BadRequest("Dirver not found");
+                return BadRequest("Scholarship not found");
             }
             return Ok(scholarship);
+    }
+    [Route("getScholarshipsByCategory/{categoryId}")]
+    [HttpGet]
+    public async Task<ActionResult<List<Scholarship>>> GetScholarshipsByCategoryAsync(int categoryId){
+        try{
+            var scholarships = await _context.Scholarships
+            .Join(_context.ScholarshipCategories,s=>s.Id,sc=>sc.CategoryId,(s,sc)=> new{Scholarship=s,ScholarshipCategory=sc})
+            .Where(ss=>ss.ScholarshipCategory.CategoryId==categoryId)
+            .Select(ss=> new {
+                ss.Scholarship.Id,
+                ss.Scholarship.Description,
+                ss.Scholarship.Image,
+                ss.Scholarship.Link,
+                ss.Scholarship.Deadline
+            }).ToListAsync();
+
+            return Ok(scholarships);
+
+        }
+        catch
+        {
+            return BadRequest("Scholarshis are not found");
+        }
     }
 }
