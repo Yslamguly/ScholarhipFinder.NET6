@@ -1,11 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ScholarhipFinderAPI.Configurations;
 using ScholarhipFinderAPI.Models;
+using ScholarhipFinderAPI.Helpers;
 using ScholarhipFinderAPI.Models.DTOs;
 
 namespace ScholarhipFinderAPI.Contrllers;
@@ -16,11 +13,13 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
     // private readonly JwtConfig _config;
-    private readonly IConfiguration _configuration;
-    public AuthController(UserManager<IdentityUser> userManager,IConfiguration configuration)//, JwtConfig config)
+    // private readonly IConfiguration _configuration;
+    private readonly TokenManager _tokenManager;
+
+    public AuthController(UserManager<IdentityUser> userManager,TokenManager tokenManager)//, JwtConfig config)
     {
         _userManager = userManager;
-        _configuration = configuration;
+        _tokenManager = tokenManager;
     }
     [HttpPost]
     [Route("Register")]
@@ -47,7 +46,7 @@ public class AuthController : ControllerBase
 
             if(is_cretaed.Succeeded){
                 //Generate tokens
-                var token = GenerateToken(newUser);
+                var token =_tokenManager.GenerateToken(newUser);
                 return Ok(new AuthResult(){
                     Result = true,
                     Token = token 
@@ -81,7 +80,7 @@ public class AuthController : ControllerBase
                     Errors = new List<string>{"Invalid Credentials"}
                 });
             }
-            var token = GenerateToken(user_exists);
+            var token = _tokenManager.GenerateToken(user_exists);
                 return Ok(new AuthResult(){
                     Result = true,
                     Token = token 
@@ -92,26 +91,26 @@ public class AuthController : ControllerBase
             Result = false
         });
     }
-    private string GenerateToken(IdentityUser identityUser){
-        var jwtTokenHandler = new JwtSecurityTokenHandler();
+    // private string GenerateToken(IdentityUser identityUser){
+    //     var jwtTokenHandler = new JwtSecurityTokenHandler();
 
-        var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig:Secret").Value);
+    //     var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtConfig:Secret").Value);
 
-        var tokenDescriptor = new SecurityTokenDescriptor(){
-            Subject = new ClaimsIdentity(new []{
-                new Claim("Id",identityUser.Id),
-                new Claim(JwtRegisteredClaimNames.Sub,identityUser.Email),
-                new Claim(JwtRegisteredClaimNames.Email,identityUser.Email),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat,DateTime.Now.ToUniversalTime().ToString()),
-            }),
-            Expires = DateTime.Now.AddHours(1),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
-        };
+    //     var tokenDescriptor = new SecurityTokenDescriptor(){
+    //         Subject = new ClaimsIdentity(new []{
+    //             new Claim("Id",identityUser.Id),
+    //             new Claim(JwtRegisteredClaimNames.Sub,identityUser.Email),
+    //             new Claim(JwtRegisteredClaimNames.Email,identityUser.Email),
+    //             new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+    //             new Claim(JwtRegisteredClaimNames.Iat,DateTime.Now.ToUniversalTime().ToString()),
+    //         }),
+    //         Expires = DateTime.Now.AddHours(1),
+    //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
+    //     };
 
-        var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-        var jwtToken = jwtTokenHandler.WriteToken(token); 
+    //     var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+    //     var jwtToken = jwtTokenHandler.WriteToken(token); 
 
-        return jwtToken;
-    }
+    //     return jwtToken;
+    // }
 }
