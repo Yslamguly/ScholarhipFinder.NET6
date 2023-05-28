@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScholarhipFinderAPI.Data;
-using ScholarhipFinderAPI.Helpers;
+using ScholarshipFinderAPI.Helpers;
 using ScholarhipFinderAPI.Models;
-using ScholarhipFinderAPI.Models.DTOs;
 
-namespace ScholarhipFinderAPI.Controllers;
+namespace ScholarshipFinderAPI.Controllers;
 [Route("/api/[controller]")]
 [ApiController]
 
@@ -66,7 +65,7 @@ public class ScholarshipController : ControllerBase
         }
         catch
         {
-            return BadRequest("Scholarshis are not found");
+            return BadRequest("Scholarships are not found");
         }
     }
 }

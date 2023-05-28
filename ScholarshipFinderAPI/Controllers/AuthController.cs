@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ScholarhipFinderAPI.Models;
-using ScholarhipFinderAPI.Helpers;
+using ScholarshipFinderAPI.Helpers;
 using ScholarhipFinderAPI.Models.DTOs;
 
-namespace ScholarhipFinderAPI.Contrllers;
+namespace ScholarshipFinderAPI.Controllers;
 [Route("/api/[controller]")] //api/auth
 [ApiController]
 

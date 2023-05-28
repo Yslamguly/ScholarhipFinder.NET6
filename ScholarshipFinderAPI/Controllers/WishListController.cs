@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScholarhipFinderAPI.Data;
 using ScholarhipFinderAPI.Models;
-using ScholarhipFinderAPI.Helpers;
+using ScholarshipFinderAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
 using ScholarhipFinderAPI.Models.DTOs;
 using Npgsql;
 
-namespace ScholarhipFinderAPI.Controllers;
+namespace ScholarshipFinderAPI.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("/api/[controller]")]
 [ApiController]

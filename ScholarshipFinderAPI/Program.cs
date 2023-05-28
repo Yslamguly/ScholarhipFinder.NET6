@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
-using ScholarhipFinderAPI.Helpers;
+using ScholarshipFinderAPI.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 

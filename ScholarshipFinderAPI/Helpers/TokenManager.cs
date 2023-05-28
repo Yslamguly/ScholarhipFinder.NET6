@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ScholarhipFinderAPI.Helpers{
+namespace ScholarshipFinderAPI.Helpers{
     public class TokenManager{
         public TokenManager(IConfiguration configuration)
         {
