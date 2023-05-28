@@ -1,4 +1,4 @@
-namespace ScholarhipFinderAPI.Models{
+namespace ScholarshipFinderAPI.Models{
     public class AuthResult{
         public string Token { get; set; }
         public bool Result { get; set; }

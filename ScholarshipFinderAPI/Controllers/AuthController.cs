@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ScholarhipFinderAPI.Models;
+using ScholarshipFinderAPI.Models;
 using ScholarshipFinderAPI.Helpers;
 using ScholarhipFinderAPI.Models.DTOs;
 

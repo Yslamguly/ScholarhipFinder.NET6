@@ -7,6 +7,7 @@ using ScholarshipFinderAPI.Helpers;
 using Microsoft.EntityFrameworkCore;
 using ScholarhipFinderAPI.Models.DTOs;
 using Npgsql;
+using ScholarshipFinderAPI.Models;
 
 namespace ScholarshipFinderAPI.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
