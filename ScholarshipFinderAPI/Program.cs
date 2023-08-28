@@ -1,11 +1,13 @@
-using ScholarhipFinderAPI.Data;
-using ScholarhipFinderAPI.Configurations;
+using ScholarshipFinderClassLibrary.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
-using ScholarshipFinderAPI.Helpers;
+using ScholarshipFinderClassLibrary.Helpers;
+using ScholarshipFinderClassLibrary.Data;
+using ScholarshipFinderAPI.Middlewares;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,12 @@ builder.Services.AddAuthentication(options=>{
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedEmail = false)
     .AddEntityFrameworkStores<ApiDbContext>();
 
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
+);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,8 +68,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors();
 
 app.UseHttpsRedirection();
+
+app.UseHelloWorld();
 
 app.UseAuthentication();
 
