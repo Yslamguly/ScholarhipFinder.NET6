@@ -1,5 +1,5 @@
 namespace ScholarhipFinderAPI.Models{
-    public class Category:BaseEntity
+    public class Category : BaseEntity
     {
         public Category()
         {
