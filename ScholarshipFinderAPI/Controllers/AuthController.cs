@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using ScholarshipFinderAPI.Models;
-using ScholarshipFinderAPI.Helpers;
-using ScholarhipFinderAPI.Models.DTOs;
+using ScholarshipFinderClassLibrary.Helpers;
+using ScholarshipFinderClassLibrary.Models.DTOs;
+using ScholarshipFinderClassLibrary.Models;
 
 namespace ScholarshipFinderAPI.Controllers;
 [Route("/api/[controller]")] //api/auth
@@ -42,9 +41,9 @@ public class AuthController : ControllerBase
                 Email = requestedDto.Email
             };
 
-            var is_cretaed = await _userManager.CreateAsync(newUser,requestedDto.Password);
+            var is_created = await _userManager.CreateAsync(newUser,requestedDto.Password);
 
-            if(is_cretaed.Succeeded){
+            if(is_created.Succeeded){
                 //Generate tokens
                 var token =_tokenManager.GenerateToken(newUser);
                 return Ok(new AuthResult(){
@@ -52,9 +51,15 @@ public class AuthController : ControllerBase
                     Token = token 
                 });
             }
+            List<string> errorDescriptions = new List<string>();
+
+            foreach (var error in is_created.Errors)
+            {
+                errorDescriptions.Add(error.Description);
+            }
             return BadRequest(new AuthResult{
                 Result = false,
-                Errors = new List<string>{"Server Error"}
+                Errors = errorDescriptions
             });
         }
         return BadRequest();
